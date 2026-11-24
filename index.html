@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Augustine Wisely Bezalel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --paper:#F7F5F0;--panel:#FFFFFF;--ink:#15171C;--muted:#6B6F76;--rule:#DCD7CD;
+  --accent:#0E6F74;--accent-2:#C2572B;
+  --sans:"IBM Plex Sans",ui-sans-serif,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1113;--panel:#15181B;--ink:#E9E7E2;--muted:#8E949C;
+    --rule:#262A2F;--accent:#4FB3B8;--accent-2:#E08A5B;color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1113;--panel:#15181B;--ink:#E9E7E2;--muted:#8E949C;
+  --rule:#262A2F;--accent:#4FB3B8;--accent-2:#E08A5B;color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--paper);color:var(--ink);font-family:var(--sans);
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:clamp(24px,5vw,48px);
+  line-height:1.5;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(20px,3.4vw,32px)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0}
+h1{font-size:clamp(26px,5.2vw,40px);line-height:1.08;margin:6px 0 0;font-weight:600;letter-spacing:-.02em;text-wrap:balance}
+.standfirst{margin:10px 0 0;max-width:58ch;color:var(--muted);font-size:clamp(14px,1.9vw,16px)}
+.standfirst b{color:var(--ink);font-weight:500}
+.panel{background:var(--panel);border:1px solid var(--rule);border-radius:3px;padding:clamp(14px,2.4vw,20px)}
+.panel-head{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+.tag{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.1em;color:var(--paper);background:var(--ink);padding:2px 6px;border-radius:2px}
+.panel-head h2{margin:0;font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-family:var(--mono)}
+.plot{position:relative;width:100%;aspect-ratio:16/8;max-width:100%;min-height:210px}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.node{position:absolute;transform:translate(-50%,-50%);background:none;border:0;padding:8px 9px;margin:0;cursor:pointer;
+  font-family:var(--mono);font-size:11px;letter-spacing:.02em;color:var(--muted);white-space:nowrap;border-radius:3px;transition:color .18s ease}
+.node:hover{color:var(--ink)}
+.node[aria-current="true"]{color:var(--accent);font-weight:500}
+.node:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.legend{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:baseline;margin-top:14px}
+.legend .k{font-family:var(--mono);font-size:12px;color:var(--accent-2);white-space:nowrap}
+.legend h3{margin:0;font-size:clamp(15px,2.2vw,17px);font-weight:600;letter-spacing:-.01em}
+.legend p{grid-column:2;margin:2px 0 0;font-size:14.5px;color:var(--muted);max-width:60ch;min-width:0}
+.legend p em{color:var(--ink);font-style:normal;font-weight:500}
+.bring{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.bring li{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline;font-size:14.5px;min-width:0}
+.bring span{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.08em}
+footer{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding-top:4px;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+footer a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent}
+footer a:hover{border-bottom-color:var(--accent)}
+.mail{display:inline-flex;align-items:center;gap:8px}
+.mail code{font-family:var(--mono);font-size:12.5px;color:var(--ink);user-select:all}
+.copy{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;background:none;border:1px solid var(--rule);
+  color:var(--muted);padding:3px 7px;border-radius:2px;cursor:pointer}
+.copy:hover{color:var(--ink);border-color:var(--muted)}
+nav{display:flex;gap:2px;border-bottom:1px solid var(--rule);margin-top:4px}
+nav button{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:none;border:0;
+  border-bottom:2px solid transparent;color:var(--muted);padding:8px 2px;margin-right:22px;cursor:pointer;transition:color .16s ease}
+nav button:hover{color:var(--ink)}
+nav button[aria-current="true"]{color:var(--ink);border-bottom-color:var(--accent-2)}
+nav button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.page{display:flex;flex-direction:column;gap:clamp(20px,3.4vw,32px)}
+.page[hidden]{display:none}
+.tracks{display:grid;gap:0}
+.track{border-top:1px solid var(--rule)}
+.track:first-child{border-top:0}
+.track>button{width:100%;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:baseline;background:none;border:0;
+  padding:13px 0;margin:0;cursor:pointer;text-align:left;color:inherit;font-family:inherit}
+.track>button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.track .num{font-family:var(--mono);font-size:11px;color:var(--accent-2);letter-spacing:.08em}
+.track .ttl{font-size:clamp(15px,2.3vw,18px);font-weight:600;letter-spacing:-.012em;min-width:0;line-height:1.3}
+.track .sting{display:block;margin-top:3px;font-size:14px;font-weight:400;color:var(--muted);letter-spacing:0}
+.track[data-open="true"] .sting{color:var(--ink)}
+.track .chev{font-family:var(--mono);font-size:13px;color:var(--muted);transition:transform .2s ease}
+.track[data-open="true"] .chev{transform:rotate(45deg)}
+.track[data-open="true"] .ttl{color:var(--accent)}
+.body{display:none;padding:0 0 15px 0;margin-left:28px}
+.track[data-open="true"] .body{display:block}
+.body p{margin:0 0 9px;font-size:14.5px;color:var(--muted);max-width:62ch}
+.body p:last-child{margin-bottom:0}
+.body em{color:var(--ink);font-style:normal;font-weight:500}
+.body .why{font-family:var(--mono);font-size:11.5px;letter-spacing:.02em;color:var(--accent);border-left:2px solid var(--rule);padding-left:10px}
+.cite{font-family:var(--mono);font-size:11px;line-height:1.55;color:var(--muted);margin:0 0 14px;max-width:70ch}
+.cite i{color:var(--ink);font-style:normal}
+.qfig{position:relative;width:100%;aspect-ratio:16/5.4;min-height:148px;margin-bottom:4px}
+.qfig canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.capwrap{position:relative;width:100%;aspect-ratio:16/7;min-height:200px}
+.capwrap canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.controls{display:flex;flex-wrap:wrap;gap:10px 12px;align-items:center;margin-top:14px}
+.seg{display:inline-flex;border:1px solid var(--rule);border-radius:2px;overflow:hidden}
+.seg button{font-family:var(--mono);font-size:11px;letter-spacing:.06em;background:none;border:0;color:var(--muted);padding:8px 11px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.hint{font-family:var(--mono);font-size:11.5px;color:var(--accent-2);letter-spacing:.02em;flex-basis:100%;min-height:1.4em}
+.mine{margin:0 0 13px;font-size:14px;color:var(--muted);max-width:62ch;border-left:2px solid var(--accent-2);padding-left:11px}
+.mine b{color:var(--ink);font-weight:500}
+.eq{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.02em}
+.prose p{margin:0 0 9px;font-size:14.5px;max-width:64ch}
+.prose p:last-child{margin-bottom:0}
+.prose p.lead{font-size:14.5px;font-weight:400;letter-spacing:0}
+.prose strong{font-weight:500}
+.caveat{font-family:var(--mono);font-size:10.5px;letter-spacing:.02em;color:var(--muted);margin:11px 0 0;max-width:66ch}
+@media (max-width:520px){
+  .legend{grid-template-columns:1fr;gap:2px}
+  .legend p{grid-column:1}
+  .node{font-size:10px;padding:7px}
+  nav button{margin-right:16px;font-size:10px}
+  .body{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">for dr jingjing zhang · department of diagnostic radiology</p>
+    <h1>Augustine Wisely Bezalel</h1>
+    <p class="standfirst" id="sf">Three questions I came away with from the radioligand therapy work, and where I think I could contribute.</p>
+  </header>
+
+  <nav>
+    <button data-p="1" aria-current="true">01 · what i'd contribute</button>
+    <button data-p="2">02 · how i read your result</button>
+    <button data-p="3">03 · what i've done</button>
+  </nav>
+
+  <div class="page" id="p1">
+  <section class="panel">
+    <div class="panel-head"><span class="tag">A</span><h2>three questions, after reading closely · tap one</h2></div>
+    <p class="cite">from <i>A single-arm, low-dose, prospective study of 177Lu-EB-PSMA radioligand therapy in patients with metastatic castration-resistant prostate cancer</i> &nbsp;·&nbsp; Journal of Nuclear Medicine 64(4), 2023 &nbsp;·&nbsp; and project 10.32 on the NUS Medicine list.</p>
+    <div class="qfig"><canvas id="qf" aria-label="schematic of the selected question" role="img"></canvas></div>
+    <div class="tracks">
+
+      <div class="track" data-open="true">
+        <button aria-expanded="true"><span class="num">01</span><span class="ttl">The project says the radionuclide and the ligand are both tailored to the patient.<span class="sting">tailoring to a patient needs a measured absorbed dose. that is an imaging problem before it is a chemistry one.</span></span><span class="chev">+</span></button>
+        <div class="body">
+          <p>The description for 10.32 is explicit that both the radionuclide and the targeting ligand can be chosen per patient, by tumour size and tumour type. That is a genuinely personalised premise, and personalisation of a radiation dose eventually has to produce a number in grays, to the lesion and to the organs at risk.</p>
+          <p><em>Getting that number is quantitative imaging.</em> Serial post-therapy SPECT or PET, activity quantified in each volume of interest at each time point, a time-activity curve fitted through them, integrated to a cumulated activity, then converted to absorbed dose.</p>
+          <p>Most centres administer a fixed activity instead, not because dosimetry is uninformative but because it is laborious: multiple return visits, manual segmentation on every time point, curve fitting per lesion. <em>The laborious part is the part I would automate.</em></p>
+          <p class="why">this is a pipeline problem wearing a clinical hat.</p>
+        </div>
+      </div>
+
+      <div class="track">
+        <button aria-expanded="false"><span class="num">02</span><span class="ttl">A low-dose study implies a dose-response question.<span class="sting">what was the absorbed dose, and did the responders get more of it?</span></span><span class="chev">+</span></button>
+        <div class="body">
+          <p>The JNM study is described in its own title as single-arm and low-dose, which is the right and cautious way to begin with a new agent. It establishes safety and it shows the ligand reaches its target.</p>
+          <p>The question it opens is the relationship between administered activity, absorbed dose at the lesion, and response. <em>Administered activity is the thing that gets prescribed. Absorbed dose is the thing that does the work</em>, and the two are related by the patient&rsquo;s own biodistribution and clearance, which vary a great deal between people.</p>
+          <p>A dose-response curve is what turns a protocol into a prescription, and it is reconstructable from imaging that a trial is often already acquiring for other reasons.</p>
+          <p class="why">the data for this is usually already on the PACS.</p>
+        </div>
+      </div>
+
+      <div class="track">
+        <button aria-expanded="false"><span class="num">03</span><span class="ttl">FAP appears on both sides of this department.<span class="sting">the FAPI PET/MRI study images it. radioligand therapy treats with it. does the scan predict the dose?</span></span><span class="chev">+</span></button>
+        <div class="body">
+          <p>The registered FAPI PET/MRI protocol in hepatocellular carcinoma, NCT05687747, images fibroblast activation protein. FAP-targeting radioligand therapy delivers radiation to that same target. That pairing is the whole theranostic premise: the scan is supposed to tell you who will benefit and roughly how much.</p>
+          <p><em>That premise is quantitatively testable rather than merely plausible.</em> Does pre-therapy PET uptake in a lesion predict the post-therapy absorbed dose in that same lesion? If it does, the diagnostic scan becomes a dosimetry predictor and patient selection gets a real basis. If it does not, the pairing needs rethinking before it scales.</p>
+          <p>This is the question on the whole NUS Medicine project list I would most like to work on, partly because it spans two projects rather than sitting inside one.</p>
+          <p class="why">it connects 7.11 and 10.32, and nobody owns the join.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel prose">
+    <div class="panel-head"><span class="tag">B</span><h2>why this group</h2></div>
+    <p class="lead">Four years of getting trustworthy numbers out of noisy signals, and a year now on the manufacturing side of the machines that produce them. A dog&rsquo;s bark. A child&rsquo;s gaze. A radio wave off a moving body. Then MRI, PET and hybrid PET/MRI at NIMHANS, and Siemens Healthineers.</p>
+    <p class="lead">Radioligand therapy is the one place in imaging where the number you compute is the dose a patient receives. I would rather work somewhere the measurement has consequences than somewhere it only has a p-value.</p>
+  </section>
+  </div>
+
+  <div class="page" id="p2" hidden>
+  <section class="panel">
+    <div class="panel-head"><span class="tag">C</span><h2>one patient, four scans, one number</h2></div>
+    <p class="mine"><b>The absorbed dose is the area under this curve.</b> The patient&rsquo;s true clearance never changes. All that changes is how many times you scan them, and therefore how well the curve through those points matches the real one. With a single time point you are not measuring clearance, you are assuming it. <span class="eq">&Atilde; = &int;A(t) dt</span></p>
+    <div class="capwrap"><canvas id="cap" aria-label="time-activity curve fitted from a varying number of imaging time points" role="img"></canvas></div>
+    <div class="controls">
+      <span class="seg" role="group" aria-label="number of imaging time points">
+        <button id="t-1" aria-pressed="false">1 time point</button>
+        <button id="t-2" aria-pressed="false">2</button>
+        <button id="t-4" aria-pressed="true">4</button>
+      </span>
+      <span class="seg" role="group" aria-label="resample">
+        <button id="redraw" aria-pressed="false">new patient</button>
+      </span>
+      <span class="hint" id="hint">four time points: the fitted curve tracks the truth closely.</span>
+    </div>
+    <p class="caveat">Simulation. A mono-exponential clearance with a patient-specific effective half-life, sampled with measurement noise at the selected time points. The single-time-point arm assumes a population-average half-life rather than fitting one, which is how it is usually done in practice. Illustrative only, not a dosimetry model for any agent.</p>
+  </section>
+
+  <section class="panel prose">
+    <div class="panel-head"><span class="tag">D</span><h2>what the reading buys</h2></div>
+    <p>With one time point you are not measuring this patient&rsquo;s clearance, you are <strong>substituting a population average for it</strong>. That is defensible as a screening estimate and indefensible as the basis for a tailored prescription.</p>
+    <p>The error has a direction that matters clinically. A patient who clears faster than average gets their tumour dose overestimated, and a slow clearer gets their kidney dose underestimated. <strong>The second one is the patient you would most want to catch.</strong></p>
+    <p>Press the resample button a few times on two points and the honest wrinkle shows up: <strong>counting time points is not the same as placing them well.</strong> Two closely spaced noisy measurements fit a slope over a short lever arm, and can occasionally do worse than one point plus a sensible prior. The fix is not simply more scans, it is scans at times chosen to constrain the decay.</p>
+    <p>Going from one time point to three or four is not a research programme, it is a scheduling decision plus an analysis pipeline. The scheduling is the hard part clinically and the pipeline is the part that keeps it from being worth doing.</p>
+    <p>So my pitch is narrow and concrete: <strong>build the pipeline so that serial dosimetry costs an afternoon of compute instead of a week of someone&rsquo;s segmentation time</strong>, and the dose-response question stops being theoretical.</p>
+  </section>
+  </div>
+
+  <div class="page" id="p3" hidden>
+
+  <section class="panel">
+    <div class="panel-head"><span class="tag">E</span><h2>state space of prior work</h2></div>
+    <div class="plot">
+      <canvas id="c"></canvas>
+      <button class="node" data-i="0" aria-current="true">pipelines at scale</button>
+      <button class="node" data-i="1">networks in dementia</button>
+      <button class="node" data-i="2">bodies, no sensors</button>
+      <button class="node" data-i="3">states from signals</button>
+    </div>
+    <div class="legend">
+      <span class="k" id="k">01</span>
+      <h3 id="t">pipelines at scale</h3>
+      <p id="d">An automated FSL and Luigi diffusion-imaging pipeline at <em>UMCG Groningen</em>, run unattended across a cohort.</p>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head"><span class="tag">F</span><h2>what i'd bring</h2></div>
+    <ul class="bring">
+      <li><span>01</span><div>Quantitative imaging pipelines that run unattended across a cohort, built in FSL and Luigi at UMCG, documented for someone else to rerun. The same shape of problem as serial dosimetry.</div></li>
+      <li><span>02</span><div>Hands-on MRI, PET and hybrid PET/MRI from NIMHANS, and Siemens Healthineers now, so quantification and reconstruction questions are ones I can chase at the source.</div></li>
+      <li><span>03</span><div>Curve fitting and signal estimation on noisy, sparsely sampled data, which is what a four-point time-activity curve is.</div></li>
+      <li><span>04</span><div>Python and R daily, and the habit of asking what a reported number would do if the acquisition protocol changed.</div></li>
+    </ul>
+  </section>
+  </div>
+
+  <footer>
+    <span class="mail"><code>augustine0521@gmail.com</code><button class="copy" id="cp">copy</button></span>
+    <a href="https://www.linkedin.com/in/augustine-w-bezalel-5a985a250" target="_blank" rel="noopener">linkedin</a>
+  </footer>
+</div>
+
+<script>
+const DATA = [
+  {k:"01", t:"pipelines at scale",
+   d:'An automated FSL and Luigi diffusion-imaging pipeline at <em>UMCG Groningen</em>, run unattended across a cohort, relating arterial calcification to white-matter injury measured by PSMD, a continuous rater-free small-vessel-disease marker derived from DTI.'},
+  {k:"02", t:"networks in dementia",
+   d:'Final-year thesis: subject-specific haemodynamic response functions estimated from resting-state fMRI in the <em>ADNI</em> cohort, treating the vascular component of the BOLD signal as a measurement in its own right rather than a nuisance to regress away.'},
+  {k:"03", t:"bodies, no sensors",
+   d:'Gait disorders detected from Wi-Fi channel state information, nothing worn and nothing seen, validated on participants the model had never encountered. <em>IEEE SPS SIGMA grant (USD 4,000) with Dr Deepak Mishra, UNSW Sydney; submitted to ICASSP 2027</em>.'},
+  {k:"04", t:"states from signals",
+   d:'Affect from canine vocalisations (<em>41st World Veterinary Association Congress, Tokyo</em>) and a webcam gaze-tracking system for attention assessment in children with ASD (<em>finalist, NeuroDesign in HRI</em>). Hands-on MRI, PET and hybrid PET/MRI at <em>NIMHANS</em>; now in R&amp;D at <em>Siemens Healthineers</em>.'}
+];
+const SF = ["Three questions I came away with from the radioligand therapy work, and where I think I could contribute.","Why <b>one time point is not a dose</b>.","Four years of quantitative imaging, and a day job inside the scanner vendor."];
+
+const MONO = '"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace';
+function chip(c,x,y,w,h,label,mode){
+  c.save();
+  if(mode==="ghost"){
+    c.setLineDash([3,3]); c.strokeStyle=col.accent2; c.globalAlpha=.75;
+    c.strokeRect(x,y,w,h); c.setLineDash([]);
+    c.fillStyle=col.accent2;
+  }else{
+    c.strokeStyle=col.rule; c.strokeRect(x,y,w,h);
+    c.fillStyle = mode==="hot" ? col.accent : col.muted;
+  }
+  c.font="10.5px "+MONO; c.textAlign="center"; c.textBaseline="middle";
+  c.fillText(label,x+w/2,y+h/2+0.5);
+  c.restore();
+}
+function lab(c,x,y,t,color,size,align){
+  c.save(); c.font=(size||10.5)+"px "+MONO; c.textAlign=align||"left";
+  c.textBaseline="middle"; c.fillStyle=color||col.muted; c.fillText(t,x,y); c.restore();
+}
+function rng(seed){ let s=seed>>>0; return ()=>{ s=(s*1664525+1013904223)>>>0; return s/4294967296; }; }
+function gauss(r){ let u=0,v=0; while(!u)u=r(); while(!v)v=r(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
+
+
+const qc=document.getElementById("qf"), qx=qc.getContext("2d");
+let qw=0,qh=0,qsel=0,qT=0,qm=0;
+function qResize(){ const r=fitCanvas(qc); if(r){ qw=r.width; qh=r.height; } }
+function qSelect(i){ if(i!==qsel){ qsel=i; qm=0; } }
+function qFrame(){
+  if(!qw) return;
+  qT+=dt; qm=Math.min(1,qm+dt*4);
+  qx.clearRect(0,0,qw,qh);
+  qx.globalAlpha=.25+.75*qm;
+  if(qsel===0) qChain(); else if(qsel===1) qDR(); else qPair();
+  qx.globalAlpha=1;
+}
+function qChain(){
+  lab(qx,qw*0.04,qh*0.15,"from scan to prescription",col.ink,11);
+  const steps=["serial scans","quantify VOIs","fit curve","integrate","dose in Gy"];
+  const pad=qw*0.03, w=(qw-pad*2)/steps.length - qw*0.012;
+  steps.forEach((s,i)=>{
+    const x=pad+i*(w+qw*0.012);
+    const on=Math.floor(qT*1.1)%steps.length===i;
+    chip(qx,x,qh*0.40,w,qh*0.26,s,on?"hot":"plain");
+    if(i<steps.length-1){
+      qx.strokeStyle=col.rule; qx.lineWidth=1;
+      qx.beginPath(); qx.moveTo(x+w+2,qh*0.53); qx.lineTo(x+w+qw*0.012-2,qh*0.53); qx.stroke();
+    }
+  });
+  lab(qx,pad,qh*0.86,"laborious by hand",col.accent2,10);
+  lab(qx,qw-pad,qh*0.86,"the number that matters",col.accent,10,"right");
+}
+function qDR(){
+  const L=qw*0.14,R=qw*0.94,T=qh*0.20,B=qh*0.80;
+  qx.strokeStyle=col.rule; qx.lineWidth=1;
+  qx.beginPath(); qx.moveTo(L,B); qx.lineTo(R,B); qx.moveTo(L,T); qx.lineTo(L,B); qx.stroke();
+  lab(qx,(L+R)/2,qh*0.94,"absorbed dose to lesion",col.muted,10,"center");
+  qx.save(); qx.translate(qw*0.055,(T+B)/2); qx.rotate(-Math.PI/2);
+  lab(qx,0,0,"response",col.muted,10,"center"); qx.restore();
+  qx.strokeStyle=col.accent; qx.lineWidth=1.8;
+  qx.beginPath();
+  for(let i=0;i<=60;i++){
+    const f=i/60, y=1/(1+Math.exp(-(f-0.5)*9));
+    const X=L+(R-L)*f, Y=B-(B-T)*y;
+    i?qx.lineTo(X,Y):qx.moveTo(X,Y);
+  }
+  qx.stroke();
+  const f=(Math.sin(qT*0.7)*0.5+0.5)*0.9+0.05;
+  const y=1/(1+Math.exp(-(f-0.5)*9));
+  qx.fillStyle=col.accent2;
+  qx.beginPath(); qx.arc(L+(R-L)*f,B-(B-T)*y,4.5,0,Math.PI*2); qx.fill();
+  lab(qx,qw*0.96,T+8,"the curve nobody has",col.accent2,10,"right");
+}
+function qPair(){
+  const y=qh*0.52;
+  chip(qx,qw*0.04,y-qh*0.14,qw*0.33,qh*0.28,"FAPI PET/MRI","plain");
+  chip(qx,qw*0.63,y-qh*0.14,qw*0.33,qh*0.28,"FAP radioligand Rx","plain");
+  const t=(qT*0.55)%1;
+  const x0=qw*0.37+qw*0.01, x1=qw*0.63-qw*0.01;
+  qx.strokeStyle=col.rule; qx.lineWidth=1;
+  qx.beginPath(); qx.moveTo(x0,y); qx.lineTo(x1,y); qx.stroke();
+  qx.fillStyle=col.accent2;
+  qx.beginPath(); qx.arc(x0+(x1-x0)*t,y,3.4,0,Math.PI*2); qx.fill();
+  lab(qx,(x0+x1)/2,qh*0.22,"same target",col.ink,10,"center");
+  const pulse=0.45+0.55*(Math.sin(qT*2.0)+1)/2;
+  qx.save(); qx.globalAlpha=(.25+.75*qm)*pulse;
+  lab(qx,(x0+x1)/2,qh*0.84,"does uptake predict dose?",col.accent2,10.5,"center");
+  qx.restore();
+  lab(qx,qw*0.04,qh*0.92,"project 7.11",col.muted,9.5);
+  lab(qx,qw*0.96,qh*0.92,"project 10.32",col.muted,9.5,"right");
+}
+
+// ---- page 2: time-activity curve from k points
+const cc=document.getElementById("cap"), cx=cc.getContext("2d");
+let cw2=0,ch2=0,K=4,seed=11,cT=0,fit=null;
+const TMAX=168; // hours
+function capResize(){ const r=fitCanvas(cc); if(r){ cw2=r.width; ch2=r.height; } }
+function build2(){
+  const r=rng(seed);
+  // patient-specific effective half-life, population mean 50 h
+  const trueT=50*Math.exp(gauss(r)*0.33);
+  const lamT=Math.LN2/trueT, A0=1.0;
+  const times = K===1 ? [48] : (K===2 ? [24,96] : [4,24,72,144]);
+  const pts = times.map(t=>({t:t, a:A0*Math.exp(-lamT*t)*(1+gauss(r)*0.07)}));
+  let lamF, A0F;
+  if(K===1){
+    // assume the population-average half-life, anchor on the single point
+    lamF = Math.LN2/50;
+    A0F = pts[0].a/Math.exp(-lamF*pts[0].t);
+  }else{
+    // log-linear least squares
+    let sx=0,sy=0,sxx=0,sxy=0;
+    pts.forEach(p=>{ const x=p.t, yy=Math.log(Math.max(1e-9,p.a)); sx+=x; sy+=yy; sxx+=x*x; sxy+=x*yy; });
+    const n=pts.length;
+    const slope=(n*sxy-sx*sy)/(n*sxx-sx*sx);
+    lamF=-slope; A0F=Math.exp((sy-slope*sx)/n);
+  }
+  const trueAUC=A0/lamT, fitAUC=A0F/Math.max(1e-9,lamF);
+  return {trueT:trueT, lamT:lamT, A0:A0, lamF:lamF, A0F:A0F, pts:pts,
+          trueAUC:trueAUC, fitAUC:fitAUC, err:(fitAUC-trueAUC)/trueAUC*100};
+}
+function recompute(){ fit=build2(); }
+function capFrame(){
+  if(!cw2) return;
+  cT+=dt;
+  if(!fit) recompute();
+  cx.clearRect(0,0,cw2,ch2);
+  const L=cw2*0.09,R=cw2*0.68,T=ch2*0.14,B=ch2*0.80;
+  cx.strokeStyle=col.rule; cx.lineWidth=1;
+  cx.beginPath(); cx.moveTo(L,B); cx.lineTo(R,B); cx.moveTo(L,T); cx.lineTo(L,B); cx.stroke();
+  [0,48,96,144].forEach(t=>{
+    const x=L+(R-L)*(t/TMAX);
+    cx.beginPath(); cx.moveTo(x,B); cx.lineTo(x,B+6); cx.stroke();
+    lab(cx,x,B+18,t+"h",col.muted,9.5,"center");
+  });
+  cx.save(); cx.translate(cw2*0.035,(T+B)/2); cx.rotate(-Math.PI/2);
+  lab(cx,0,0,"activity in lesion",col.muted,10,"center"); cx.restore();
+  const PX=t=>L+(R-L)*(t/TMAX);
+  const PY=a=>B-(B-T)*Math.min(1,a/1.05);
+  // true curve, filled to show the integral
+  cx.beginPath(); cx.moveTo(PX(0),B);
+  for(let i=0;i<=80;i++){ const t=TMAX*i/80; cx.lineTo(PX(t),PY(fit.A0*Math.exp(-fit.lamT*t))); }
+  cx.lineTo(PX(TMAX),B); cx.closePath();
+  cx.fillStyle=col.accent; cx.globalAlpha=.14; cx.fill(); cx.globalAlpha=1;
+  cx.strokeStyle=col.accent; cx.lineWidth=1.8;
+  cx.beginPath();
+  for(let i=0;i<=80;i++){ const t=TMAX*i/80; const X=PX(t),Y=PY(fit.A0*Math.exp(-fit.lamT*t)); i?cx.lineTo(X,Y):cx.moveTo(X,Y); }
+  cx.stroke();
+  // fitted curve
+  cx.strokeStyle=col.accent2; cx.lineWidth=1.8; cx.setLineDash([5,3]);
+  cx.beginPath();
+  for(let i=0;i<=80;i++){ const t=TMAX*i/80; const X=PX(t),Y=PY(fit.A0F*Math.exp(-fit.lamF*t)); i?cx.lineTo(X,Y):cx.moveTo(X,Y); }
+  cx.stroke(); cx.setLineDash([]);
+  // measured points
+  fit.pts.forEach(p=>{
+    cx.fillStyle=col.panel; cx.beginPath(); cx.arc(PX(p.t),PY(p.a),6,0,Math.PI*2); cx.fill();
+    cx.strokeStyle=col.ink; cx.lineWidth=1.4;
+    cx.beginPath(); cx.arc(PX(p.t),PY(p.a),4.5,0,Math.PI*2); cx.stroke();
+  });
+  lab(cx,L,ch2*0.07,"true clearance versus what the scans support",col.ink,11);
+  // readout
+  const rx=cw2*0.72;
+  lab(cx,rx,T+8,"estimated dose",col.muted,10);
+  cx.save();
+  cx.font="600 "+Math.round(Math.min(cw2*0.07,30))+"px "+MONO;
+  cx.fillStyle=Math.abs(fit.err)>15?col.accent2:col.accent; cx.textBaseline="middle";
+  cx.fillText((fit.err>0?"+":"")+fit.err.toFixed(0)+"%", rx, (T+B)/2-10);
+  cx.restore();
+  lab(cx,rx,(T+B)/2+18,"against the truth",col.muted,10);
+  lab(cx,rx,(T+B)/2+40,"true half-life "+fit.trueT.toFixed(0)+" h",col.ink,10);
+  lab(cx,rx,(T+B)/2+56,K===1?"assumed 50 h":"fitted "+(Math.LN2/fit.lamF).toFixed(0)+" h",
+      K===1?col.accent2:col.accent,10);
+}
+function press(id,on){ document.getElementById(id).setAttribute("aria-pressed",on?"true":"false"); }
+function upd(){
+  press("t-1",K===1); press("t-2",K===2); press("t-4",K===4);
+  recompute();
+  const e=Math.abs(fit.err).toFixed(0);
+  document.getElementById("hint").textContent =
+    K===1 ? "one time point: the half-life is assumed, not measured. this patient is off by "+e+"%."
+  : K===2 ? "two points do fit a slope, but over a short arm, so noise still moves it. off by "+e+"%."
+  : "four time points, well spaced: the fitted curve tracks the truth. off by "+e+"%.";
+}
+document.getElementById("t-1").onclick=()=>{K=1;upd();};
+document.getElementById("t-2").onclick=()=>{K=2;upd();};
+document.getElementById("t-4").onclick=()=>{K=4;upd();};
+document.getElementById("redraw").onclick=()=>{seed=(seed*7919+13)%100000;upd();};
+upd();
+
+
+const P = [[0.13,0.70],[0.39,0.28],[0.63,0.64],[0.88,0.26]];
+const SEG = 110;
+const cv = document.getElementById("c"), ctx = cv.getContext("2d");
+const nodes = [...document.querySelectorAll(".node")];
+const kEl = document.getElementById("k"), tEl = document.getElementById("t"), dEl = document.getElementById("d");
+let W=0,H=0,path=[],sel=0,pos=0,target=0,col={};
+let last = performance.now(), dt = 1/60;
+
+function readColors(){
+  const s = getComputedStyle(document.documentElement);
+  col = {rule:s.getPropertyValue("--rule").trim(),accent:s.getPropertyValue("--accent").trim(),
+    accent2:s.getPropertyValue("--accent-2").trim(),muted:s.getPropertyValue("--muted").trim(),
+    panel:s.getPropertyValue("--panel").trim(),ink:s.getPropertyValue("--ink").trim(),
+    paper:s.getPropertyValue("--paper").trim()};
+}
+function catmull(p0,p1,p2,p3,t){
+  const t2=t*t,t3=t2*t;
+  return [0.5*((2*p1[0])+(-p0[0]+p2[0])*t+(2*p0[0]-5*p1[0]+4*p2[0]-p3[0])*t2+(-p0[0]+3*p1[0]-3*p2[0]+p3[0])*t3),
+          0.5*((2*p1[1])+(-p0[1]+p2[1])*t+(2*p0[1]-5*p1[1]+4*p2[1]-p3[1])*t2+(-p0[1]+3*p1[1]-3*p2[1]+p3[1])*t3)];
+}
+function buildPath(){
+  path=[]; const pts=[P[0],...P,P[P.length-1]];
+  for(let i=1;i<pts.length-2;i++)
+    for(let j=0;j<SEG;j++){ const q=catmull(pts[i-1],pts[i],pts[i+1],pts[i+2],j/SEG); path.push([q[0]*W,q[1]*H]); }
+  path.push([P[P.length-1][0]*W,P[P.length-1][1]*H]);
+}
+function fitCanvas(el){
+  if(!el) return null;
+  const r = el.getBoundingClientRect();
+  if(!r.width || !r.height) return null;
+  const dpr = Math.min(window.devicePixelRatio||1,2);
+  el.width = Math.round(r.width*dpr); el.height = Math.round(r.height*dpr);
+  el.getContext("2d").setTransform(dpr,0,0,dpr,0,0);
+  return r;
+}
+function resize(){
+  const r = fitCanvas(cv); if(!r) return;
+  W = r.width; H = r.height; buildPath();
+  nodes.forEach((n,i)=>{ n.style.left=(P[i][0]*100)+"%"; n.style.top=(P[i][1]*100-(i%2?13:-13))+"%"; });
+}
+function drawStateSpace(){
+  ctx.clearRect(0,0,W,H);
+  ctx.strokeStyle=col.rule; ctx.lineWidth=1; ctx.beginPath();
+  for(let i=1;i<6;i++){const x=W*i/6;ctx.moveTo(x,0);ctx.lineTo(x,H);}
+  for(let i=1;i<4;i++){const y=H*i/4;ctx.moveTo(0,y);ctx.lineTo(W,y);}
+  ctx.stroke();
+  ctx.strokeStyle=col.accent; ctx.globalAlpha=.34; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(path[0][0],path[0][1]);
+  for(const pt of path) ctx.lineTo(pt[0],pt[1]);
+  ctx.stroke(); ctx.globalAlpha=1;
+  P.forEach((p,i)=>{
+    const x=p[0]*W,y=p[1]*H,on=i===sel;
+    if(on){
+      ctx.strokeStyle=col.accent; ctx.globalAlpha=.4; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.arc(x,y,13,0,Math.PI*2); ctx.stroke();
+      ctx.globalAlpha=.18; ctx.beginPath(); ctx.arc(x,y,20,0,Math.PI*2); ctx.stroke(); ctx.globalAlpha=1;
+    }
+    ctx.fillStyle=on?col.accent:col.muted; ctx.globalAlpha=on?1:.5;
+    ctx.beginPath(); ctx.arc(x,y,on?4.5:3,0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1;
+  });
+  pos += (target-pos)*0.075;
+  const idx=Math.max(0,Math.min(path.length-1,Math.round(pos)));
+  const d0=path[idx];
+  ctx.fillStyle=col.panel; ctx.beginPath(); ctx.arc(d0[0],d0[1],7,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle=col.accent2; ctx.beginPath(); ctx.arc(d0[0],d0[1],4,0,Math.PI*2); ctx.fill();
+}
+function select(i){
+  sel=i; target=i*SEG;
+  const d=DATA[i]; kEl.textContent=d.k; tEl.textContent=d.t; dEl.innerHTML=d.d;
+  nodes.forEach((n,j)=>n.setAttribute("aria-current",j===i?"true":"false"));
+}
+nodes.forEach(n=>n.addEventListener("click",()=>select(+n.dataset.i)));
+cv.addEventListener("click",e=>{
+  const r=cv.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
+  let best=-1,bd=30;
+  P.forEach((p,i)=>{const d=Math.hypot(p[0]*W-mx,p[1]*H-my); if(d<bd){bd=d;best=i;}});
+  if(best>=0) select(best);
+});
+document.getElementById("cp").addEventListener("click",async e=>{
+  const btn=e.currentTarget;
+  try{ await navigator.clipboard.writeText("augustine0521@gmail.com"); btn.textContent="copied"; }
+  catch(_){ btn.textContent="select it"; }
+  setTimeout(()=>btn.textContent="copy",1500);
+});
+const navBtns=[...document.querySelectorAll("nav button")];
+const pageEls=[1,2,3].map(i=>document.getElementById("p"+i));
+function show(p){
+  pageEls.forEach((el,i)=>{ if(el) el.hidden = (i+1)!==p; });
+  navBtns.forEach(b=>b.setAttribute("aria-current", (+b.dataset.p)===p ? "true":"false"));
+  document.getElementById("sf").innerHTML = SF[p-1];
+  if(p===1) qResize();
+  if(p===2) capResize();
+  if(p===3) resize();
+  if(location.hash !== "#"+p) history.replaceState(null,"","#"+p);
+}
+navBtns.forEach(b=>b.addEventListener("click",()=>show(+b.dataset.p)));
+document.querySelectorAll(".track>button").forEach((b,i)=>{
+  b.addEventListener("click",()=>{
+    const tr=b.parentElement, open=tr.dataset.open==="true";
+    document.querySelectorAll(".track").forEach(t=>{t.dataset.open="false";t.querySelector("button").setAttribute("aria-expanded","false");});
+    if(!open){ tr.dataset.open="true"; b.setAttribute("aria-expanded","true"); qSelect(i); }
+  });
+});
+function frame(){
+  const now=performance.now();
+  dt=Math.min(0.05,(now-last)/1000); last=now;
+  if(W) drawStateSpace();
+  qFrame(); capFrame();
+  requestAnimationFrame(frame);
+}
+readColors();
+if(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").addEventListener)
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",readColors);
+new ResizeObserver(()=>{resize();qResize();capResize();}).observe(document.body);
+window.addEventListener("resize",()=>{resize();qResize();capResize();});
+select(0);
+qSelect(0);
+const hv=parseInt((location.hash||"").slice(1),10);
+show(hv>=1&&hv<=3?hv:1);
+requestAnimationFrame(frame);
+
+</script>
+
+</body>
+</html>
